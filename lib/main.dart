@@ -1,17 +1,26 @@
 import 'package:flutter/material.dart';
 
-import 'package:get/get.dart';
-
-import 'app/routes/app_pages.dart';
-
 void main() {
-  runApp(
-    GetMaterialApp(
-      darkTheme: ThemeData.dark(),
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: "Application",
-      initialRoute: AppPages.INITIAL,
-      getPages: AppPages.routes,
-    ),
-  );
+      home: HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold();
+  }
 }
