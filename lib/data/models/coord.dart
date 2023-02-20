@@ -8,8 +8,8 @@ class Coord extends Equatable {
   const Coord({this.lon, this.lat});
 
   factory Coord.fromJson(Map<String, dynamic> json) => Coord(
-        lon: (json['lon'] as num?)?.toDouble(),
-        lat: (json['lat'] as num?)?.toDouble(),
+        lon: (json['lon'] as double?)?.toDouble(),
+        lat: (json['lat'] as double?)?.toDouble(),
       );
 
   Map<String, dynamic> toJson() => {
