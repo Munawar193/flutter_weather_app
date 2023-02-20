@@ -4,14 +4,14 @@ import '../../domain/entity/wind_entity.dart';
 
 class Wind extends Equatable {
   final double? speed;
-  final int? deg;
+  final double? deg;
   final double? gust;
 
   const Wind({this.speed, this.deg, this.gust});
 
   factory Wind.fromJson(Map<String, dynamic> json) => Wind(
         speed: (json['speed'] as num?)?.toDouble(),
-        deg: json['deg'] as int?,
+        deg: (json['deg'] as num?)?.toDouble(),
         gust: (json['gust'] as num?)?.toDouble(),
       );
 
