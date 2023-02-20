@@ -32,5 +32,10 @@ class Weather extends Equatable {
       );
 
   @override
-  List<Object?> get props => [id, main, description, icon];
+  List<Object?> get props => [
+        id,
+        main,
+        description,
+        icon,
+      ];
 }
