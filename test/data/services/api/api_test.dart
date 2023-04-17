@@ -23,6 +23,13 @@ void main() {
   });
 
   group('getWeatherApi', () {
+    const String lang = 'id';
+    const double lat = 5.522470;
+    const double lon = 95.410808;
+    const apiURL = 'https://api.openweathermap.org/data/2.5/weather';
+    const appid = '1f2ac2140cc14ef9e6fa782d34018057';
+    const String url =
+        "$apiURL?lat=$lat&lon=$lon&appid=$appid&lang=$lang&units=metric";
     test(
       'should return weather model when the response is successful (200)',
       () async {
@@ -72,12 +79,10 @@ void main() {
         );
         // arrange
         when(
-          mockDio.get(
-            'https://api.openweathermap.org/data/2.5/weather?lat=5.522470&lon=95.410808&appid=1f2ac2140cc14ef9e6fa782d34018057&lang=id',
-          ),
+          mockDio.get(url),
         ).thenAnswer((_) async => response);
         // act
-        final result = await dataSource.getWeatherApi();
+        final result = await dataSource.getWeatherApi(lang, lat, lon);
         final weather = result.weather![0];
         // assert
         expect(result, isA<Weathers>());
@@ -117,26 +122,21 @@ void main() {
       },
     );
 
-    test(
-      'should throw a ServerException when the response is unsuccessful',
-      () async {
-        // arrange
-        when(
-          mockDio.get(
-            'https://api.openweathermap.org/data/2.5/weather?lat=5.522470&lon=95.410808&appid=1f2ac2140cc14ef9e6fa782d34018057&lang=id',
-          ),
-        ).thenAnswer(
-          (_) async => Response(
-            data: 'Something went wrong',
-            statusCode: 404,
-            requestOptions: RequestOptions(path: ''),
-          ),
-        );
-        // act
-        final call = dataSource.getWeatherApi;
-        // assert
-        expect(() => call(), throwsA(isInstanceOf<ServerException>()));
-      },
-    );
+    test('throws ServerException on error', () async {
+      final error = DioError(
+        response: Response(
+          statusCode: 404,
+          data: {'message': 'Not Found'},
+          requestOptions: RequestOptions(path: ""),
+        ),
+        type: DioErrorType.response,
+        requestOptions: RequestOptions(path: ""),
+      );
+
+      when(mockDio.get(url, options: anyNamed('options'))).thenThrow(error);
+
+      expect(() => dataSource.getWeatherApi(lang, lat, lon),
+          throwsA(isA<ServerException>()));
+    });
   });
 }

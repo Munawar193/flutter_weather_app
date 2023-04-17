@@ -67,13 +67,19 @@ void main() {
     );
     final tWeathersEntity = tWeathers.toEntity();
 
+    const String lang = 'id';
+    const double lat = 0.0;
+    const double lon = 0.0;
+
     test('should return weather entity from the data source', () async {
       // arrange
-      when(mockDataSource.getWeatherApi()).thenAnswer((_) async => tWeathers);
+      when(mockDataSource.getWeatherApi(lang, lat, lon))
+          .thenAnswer((_) async => tWeathers);
       // act
-      final result = await repository.getWeatherApi();
+
+      final result = await repository.getWeatherApi(lang, lat, lon);
       // assert
-      verify(mockDataSource.getWeatherApi());
+      verify(mockDataSource.getWeatherApi(lang, lat, lon));
       expect(result, Right(tWeathersEntity));
       verifyNoMoreInteractions(mockDataSource);
     });
@@ -82,12 +88,13 @@ void main() {
         'should return a ServerFailure when the call to data source is unsuccessful',
         () async {
       // arrange
-      when(mockDataSource.getWeatherApi()).thenThrow(ServerException());
+      when(mockDataSource.getWeatherApi(lang, lat, lon))
+          .thenThrow(ServerException());
       // act
-      final result = await repository.getWeatherApi();
+      final result = await repository.getWeatherApi(lang, lat, lon);
       // assert
-      expect(result, const Left(ServerFailure('Server Error')));
-      verify(mockDataSource.getWeatherApi());
+      expect(result, const Left(ServerFailure('')));
+      verify(mockDataSource.getWeatherApi(lang, lat, lon));
       verifyNoMoreInteractions(mockDataSource);
     });
 
@@ -95,14 +102,14 @@ void main() {
         'should return a ConnectionFailure when there is no internet connection',
         () async {
       // arrange
-      when(mockDataSource.getWeatherApi())
+      when(mockDataSource.getWeatherApi(lang, lat, lon))
           .thenThrow(const SocketException('Failed to connect to the network'));
       // act
-      final result = await repository.getWeatherApi();
+      final result = await repository.getWeatherApi(lang, lat, lon);
       // assert
       expect(result,
           const Left(ConnectionFailure('Failed to connect to the network')));
-      verify(mockDataSource.getWeatherApi());
+      verify(mockDataSource.getWeatherApi(lang, lat, lon));
       verifyNoMoreInteractions(mockDataSource);
     });
   });
