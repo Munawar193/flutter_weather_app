@@ -9,7 +9,7 @@ import 'package:pawang_hujan/utils/failure.dart';
 
 class MockDomainRepositoryR extends DomainRepository {
   @override
-  Future<Either<Failure, WeathersEntity>> getWeatherApi() async {
+  Future<Either<Failure, WeathersEntity>> getWeatherApi(lang, lat, lon) async {
     // Return a dummy success value for the test
     return const Right(WeathersEntity(
       coord: null,
@@ -31,10 +31,14 @@ class MockDomainRepositoryR extends DomainRepository {
 
 class MockDomainRepositoryL extends DomainRepository {
   @override
-  Future<Either<Failure, WeathersEntity>> getWeatherApi() async {
+  Future<Either<Failure, WeathersEntity>> getWeatherApi(lang, lat, lon) async {
     return const Left(ServerFailure('Server Error'));
   }
 }
+
+const String lang = 'id';
+const double lat = 5.522470;
+const double lon = 95.410808;
 
 void main() {
   late MockDomainRepositoryR repositoryR;
@@ -67,7 +71,7 @@ void main() {
       );
 
       // Act
-      final result = await repositoryR.getWeatherApi();
+      final result = await repositoryR.getWeatherApi(lang, lat, lon);
 
       // Assert
       expect(result, equals(const Right(expected)));
@@ -80,7 +84,7 @@ void main() {
       const expected = ServerFailure('Server Error');
 
       // Act
-      final result = await repositoryL.getWeatherApi();
+      final result = await repositoryL.getWeatherApi(lang, lat, lon);
 
       // Assert
       expect(result, equals(const Left(expected)));
@@ -95,7 +99,7 @@ void main() {
       final repository = DataRepositoryImpl(
         dataSource: dataSource,
       );
-      final result = await repository.getWeatherApi();
+      final result = await repository.getWeatherApi(lang, lat, lon);
 
       expect(result, isA<Right<Failure, WeathersEntity>>());
     });
