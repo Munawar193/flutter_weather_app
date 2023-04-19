@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pawang_hujan/utils/constants.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   group('Text styles', () {
     test('kHeading5 returns correct value', () {
       expect(
