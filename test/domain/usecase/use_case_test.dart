@@ -31,17 +31,21 @@ void main() {
     cod: 0,
   );
 
+  const String lang = 'id';
+  const double lat = 5.522470;
+  const double lon = 95.410808;
+
   test('should get weather from the repository', () async {
     // arrange
-    when(mockRepository.getWeatherApi())
+    when(mockRepository.getWeatherApi(lang, lat, lon))
         .thenAnswer((_) async => const Right(tWeatherEntity));
 
     // act
-    final result = await usecase.execute();
+    final result = await usecase.execute(lang, lat, lon);
 
     // assert
     expect(result, const Right(tWeatherEntity));
-    verify(mockRepository.getWeatherApi());
+    verify(mockRepository.getWeatherApi(lang, lat, lon));
     verifyNoMoreInteractions(mockRepository);
   });
 }
