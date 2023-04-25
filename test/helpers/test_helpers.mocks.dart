@@ -1000,16 +1000,29 @@ class MockWeatherDataSource extends _i1.Mock implements _i15.WeatherDataSource {
   }
 
   @override
-  _i11.Future<_i8.Weathers> getWeatherApi() => (super.noSuchMethod(
+  _i11.Future<_i8.Weathers> getWeatherApi(
+    String? lang,
+    double? lat,
+    double? lon,
+  ) =>
+      (super.noSuchMethod(
         Invocation.method(
           #getWeatherApi,
-          [],
+          [
+            lang,
+            lat,
+            lon,
+          ],
         ),
         returnValue: _i11.Future<_i8.Weathers>.value(_FakeWeathers_6(
           this,
           Invocation.method(
             #getWeatherApi,
-            [],
+            [
+              lang,
+              lat,
+              lon,
+            ],
           ),
         )),
       ) as _i11.Future<_i8.Weathers>);
@@ -1024,11 +1037,19 @@ class MockDomainRepository extends _i1.Mock implements _i16.DomainRepository {
   }
 
   @override
-  _i11.Future<_i9.Either<_i17.Failure, _i18.WeathersEntity>> getWeatherApi() =>
+  _i11.Future<_i9.Either<_i17.Failure, _i18.WeathersEntity>> getWeatherApi(
+    String? lang,
+    double? lat,
+    double? lon,
+  ) =>
       (super.noSuchMethod(
         Invocation.method(
           #getWeatherApi,
-          [],
+          [
+            lang,
+            lat,
+            lon,
+          ],
         ),
         returnValue:
             _i11.Future<_i9.Either<_i17.Failure, _i18.WeathersEntity>>.value(
@@ -1036,7 +1057,11 @@ class MockDomainRepository extends _i1.Mock implements _i16.DomainRepository {
           this,
           Invocation.method(
             #getWeatherApi,
-            [],
+            [
+              lang,
+              lat,
+              lon,
+            ],
           ),
         )),
       ) as _i11.Future<_i9.Either<_i17.Failure, _i18.WeathersEntity>>);
