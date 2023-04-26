@@ -8,7 +8,11 @@ class GetWeather {
 
   GetWeather(this.repository);
 
-  Future<Either<Failure, WeathersEntity>> execute() {
-    return repository.getWeatherApi();
+  Future<Either<Failure, WeathersEntity>> execute(
+    String lang,
+    double lat,
+    double lon,
+  ) {
+    return repository.getWeatherApi(lang, lat, lon);
   }
 }
